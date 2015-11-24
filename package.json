@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xoxco/botkit.git"
+    "url": "git+https://github.com/xoxco/botkit.git"
   },
   "bugs": {
     "url": "https://github.com/xoxco/botkit/issues"
@@ -28,5 +28,8 @@
     "slack"
   ],
   "author": "ben@xoxco.com",
-  "license": "ISC"
+  "license": "ISC",
+  "directories": {
+    "doc": "docs"
+  }
 }
