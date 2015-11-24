@@ -20,19 +20,33 @@ bot.startRTM({
   }
 });
 
-bot.hears(['Hi'],'direct_message,direct_mention',function(message) {
+//incoming webhook
+bot.configureIncomingWebhook({url: "https://hooks.slack.com/services/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"});
+
+bot.api.webhooks.send({
+  text: 'Hi, Im a IBM Watson Slack Bot and use Personality Insights.',
+  channel: '#watsonbot',
+},function(err,res) {
+  if (err) {
+    text: 'error',
+  }
+});
+
+bot.on(‘channel_joined’,function(message) { bot.reply(message,"I just joined this channel!") });
+
+
+bot.hears(['Hi'],'ambient,mention',function(message) {
   
-  var userName = req.body.user_name;
-  bot.reply(message,'Hi' + userName + '!');
+  bot.reply(message,'Hi!');
 
   bot.startTask(message,function(task,convo) {
       convo.ask('Would you like to learn about Personality Insights?',[
         {
-          callback: function(response,convo) { console.log('YES'); convo.say('Awesome. Personality Insights is an API that divides personalities into five different characteristics. You can try it out with this channel by using "/analyze" in the channel.'); convo.next(); },
+          callback: function(response,convo) { console.log('YES'); convo.say('Awesome. Personality Insights is an API that divides personalities into five different characteristics. You can try it out with this channel by calling "@IBMWatson_Bot /analyze" in the channel.'); convo.next(); },
           pattern: bot.utterances.yes,
         },
         {
-          callback: function(response,convo) { console.log('NO');  convo.say('Alright, but youre missing out!'); convo.next();},
+          callback: function(response,convo) { console.log('NO');  convo.say("Alright, but you're missing out!"); convo.next();},
           pattern: bot.utterances.no,
         },
         {
@@ -42,32 +56,6 @@ bot.hears(['Hi'],'direct_message,direct_mention',function(message) {
     ])
   })
 });
-
-
-bot.hears(['hello'],'direct_message,direct_mention',function(message) {
-    bot.startTask(message,function(task,convo) {
-      convo.ask('Say YES or NO',[
-        {
-          callback: function(response,convo) { console.log('YES'); convo.say('YES! Good.'); convo.next(); },
-          pattern: bot.utterances.yes,
-        },
-        {
-          callback: function(response,convo) { console.log('NO');  convo.say('NO?!?! WTF?'); convo.next();},
-          pattern: bot.utterances.no,
-        },
-        {
-          callback: function(response,convo) { convo.say('THIRD CHOICE'); convo.next(); },
-          pattern: 'foo',
-        },
-        {
-          default: true,
-          callback: function(response,convo) { console.log('DEFAULT'); convo.say('Huh?'); convo.repeat(); convo.next(); }
-        }
-    ])
-  })
-});
-
-
 
 bot.hears(['analyze'],'direct_message,direct_mention',function(message) {
 
@@ -116,59 +104,15 @@ bot.hears(['analyze'],'direct_message,direct_mention',function(message) {
 })
 
 
-// bot.hears(['analyze'],'direct_message,direct_mention',function(message) {
-
-//   // message.channel
-
-//   if (!channels[message.channel]) {
-//     bot.reply(message,'No data for this channel!');
-//   } else {
-
-//     // call the watson api with your text
-//     var corpus = channels[message.channel].join("\n");
-
-//     personality_insights.profile(
-//       {
-//         text: corpus,
-//         language: 'en'
-//       },
-//       function (err, response) {
-//         if (err) {
-//           console.log('error:', err);
-//         } else {
-
-//           bot.startTask(message,function(task,convo) {
-
-//             // response.tree.children.children is a list of the top 5 traits
-//             var top5 = response.tree.children[0].children[0].children;
-//             console.log(top5);
-//             for (var c = 0; c <  top5.length; c++) {
-
-//                 convo.say('Name: ' + top5[c].name + ' Percent: ' + top5[c].percentage);
-
-//             }
-
-//           });
 
 
-//           //bot.reply(message,JSON.stringify(response,null,2));
-
-//           //
-//           // bot.startConversation(message,function(convo) {
-//           //   convo.say('This channels personality is...' + response.field);
-//           //   convo.say('This channels personality is...' + response.field);
-//           //   convo.say('This channels personality is...' + response.field);
-//           //   convo.say('This channels personality is...' + response.field);
-//           // })
-
-//         }
-//       }
-//     );
 
 
-//   }
 
-// })
+
+
+
+
 /*
 
 var channels = {}
@@ -192,28 +136,4 @@ var channels = {}
  bot.on('message_received',function(message) {
    console.log(message);
  });
-
- /*
-
-  bot.hears(['lunch'],'direct_message,direct_mention',function(message) {
-    bot.startTask(message,function(task,convo) {
-      convo.ask('Say YES or NO',[
-        {
-          callback: function(response,convo) { console.log('YES'); convo.say('YES! Good.'); convo.next(); },
-          pattern: bot.utterances.yes,
-        },
-        {
-          callback: function(response,convo) { console.log('NO');  convo.say('NO?!?! WTF?'); convo.next();},
-          pattern: bot.utterances.no,
-        },
-        {
-          callback: function(response,convo) { convo.say('THIRD CHOICE'); convo.next(); },
-          pattern: 'foo',
-        },
-        {
-          default: true,
-          callback: function(response,convo) { console.log('DEFAULT'); convo.say('Huh?'); convo.repeat(); convo.next(); }
-        }
-    ]);
-  });
-});*/
+*/
