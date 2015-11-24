@@ -1,0 +1,32 @@
+{
+  "name": "botkit",
+  "version": "0.0.1",
+  "description": "See the main readme file for operation of the BotKit bot system.",
+  "main": "Bot.js",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "mustache": "^2.1.3",
+    "request": "^2.60.0",
+    "ws": "^0.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xoxco/botkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xoxco/botkit/issues"
+  },
+  "homepage": "https://github.com/xoxco/botkit",
+  "keywords": [
+    "bots",
+    "chatbots",
+    "slack"
+  ],
+  "author": "ben@xoxco.com",
+  "license": "ISC"
+}
