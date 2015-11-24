@@ -24,38 +24,13 @@ bot.hears(['hello'],'direct_message,direct_mention',function(message) {
   bot.reply(message,'Hello!');
 });
 
-
-  bot.hears(['lunch'],'direct_message,direct_mention',function(message) {
-    bot.startTask(message,function(task,convo) {
-      convo.ask('Say YES or NO',[
-        {
-          callback: function(response,convo) { console.log('YES'); convo.say('YES! Good.'); convo.next(); },
-          pattern: bot.utterances.yes,
-        },
-        {
-          callback: function(response,convo) { console.log('NO');  convo.say('NO?!?! WTF?'); convo.next();},
-          pattern: bot.utterances.no,
-        },
-        {
-          callback: function(response,convo) { convo.say('THIRD CHOICE'); convo.next(); },
-          pattern: 'foo',
-        },
-        {
-          default: true,
-          callback: function(response,convo) { console.log('DEFAULT'); convo.say('Huh?'); convo.repeat(); convo.next(); }
-        }
-    ]);
-  });
-});
-
-
 bot.hears(['analyze'],'direct_message,direct_mention',function(message) {
 
     bot.api.channels.history({
 
       channel: message.channel,
     },function(err,history) {
-      count: 500,
+      //count: 500,
 
       if (err) {
         console.log('ERROR',err);
@@ -86,23 +61,60 @@ bot.hears(['analyze'],'direct_message,direct_mention',function(message) {
               console.log(top5);
               for (var c = 0; c <  top5.length; c++) {
 
-                  convo.say('Name: ' + top5[c].name + ' Percent: ' + top5[c].percentage);
-
+                  convo.say('This channel has an ' + top5[c].name + ' percent of ' + top5[c].percentage*100;
               }
-
             });
-
-
           }
         }
       );
-
-
-
     });
+})
 
 
+bot.hears(['analyze'],'direct_message,direct_mention',function(message) {
 
+    bot.api.channels.history({
+
+      channel: message.channel,
+    },function(err,history) {
+      //count: 500,
+
+      if (err) {
+        console.log('ERROR',err);
+      }
+
+      var messages = [];
+      for (var i = 0; i < history.messages.length; i++) {
+        messages.push(history.messages[i].text);
+      }
+
+      // call the watson api with your text
+      var corpus = messages.join("\n");
+
+      personality_insights.profile(
+        {
+          text: corpus,
+          language: 'en'
+        },
+        function (err, response) {
+          if (err) {
+            console.log('error:', err);
+          } else {
+
+            bot.startTask(message,function(task,convo) {
+
+              // response.tree.children.children is a list of the top 5 traits
+              var top5 = response.tree.children[0].children[0].children;
+              console.log(top5);
+              for (var c = 0; c <  top5.length; c++) {
+
+                  convo.say('This channel has an ' + top5[c].name + ' percent of ' + Math.round(top5[c].percentage);
+              }
+            });
+          }
+        }
+      );
+    });
 })
 
 
@@ -161,25 +173,50 @@ bot.hears(['analyze'],'direct_message,direct_mention',function(message) {
 
 // })
 
-// var channels = {}
 
-// bot.on('ambient,direct_message',function(message) {
+var channels = {}
+
+ bot.on('ambient,direct_message',function(message) {
 
 //   // message.channel
 //   // message.text
-//   if (!channels[message.channel]) {
-//     channels[message.channel] = [];
-//   }
+   if (!channels[message.channel]) {
+    channels[message.channel] = [];
+  }
 
-//   channels[message.channel].push(message.text);
-//   if (channels[message.channel].length > 500) {
-//     channels[message.channel].shift();
-//   }
+   channels[message.channel].push(message.text);
+  if (channels[message.channel].length > 500) {
+   channels[message.channel].shift();
+   }
 
-// })
+ })
 
 
-// bot.on('message_received',function(message) {
-//   console.log(message);
+ bot.on('message_received',function(message) {
+   console.log(message);
+ });
 
-// });
+ /*
+
+  bot.hears(['lunch'],'direct_message,direct_mention',function(message) {
+    bot.startTask(message,function(task,convo) {
+      convo.ask('Say YES or NO',[
+        {
+          callback: function(response,convo) { console.log('YES'); convo.say('YES! Good.'); convo.next(); },
+          pattern: bot.utterances.yes,
+        },
+        {
+          callback: function(response,convo) { console.log('NO');  convo.say('NO?!?! WTF?'); convo.next();},
+          pattern: bot.utterances.no,
+        },
+        {
+          callback: function(response,convo) { convo.say('THIRD CHOICE'); convo.next(); },
+          pattern: 'foo',
+        },
+        {
+          default: true,
+          callback: function(response,convo) { console.log('DEFAULT'); convo.say('Huh?'); convo.repeat(); convo.next(); }
+        }
+    ]);
+  });
+});*/
