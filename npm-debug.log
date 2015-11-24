@@ -12,7 +12,7 @@
 4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:300:12
 4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:76:16
 4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:380:3)
-5 verbose cwd /Users/ashleyhathaway/Sites/botkit
+5 verbose cwd /Users/ashleyhathaway/Sites/WatsonPersonalityBot
 6 error Darwin 15.0.0
 7 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
 8 error node v4.2.2
