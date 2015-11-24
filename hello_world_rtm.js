@@ -20,22 +20,7 @@ bot.startRTM({
   }
 });
 
-//incoming webhook
-bot.configureIncomingWebhook({url: "https://hooks.slack.com/services/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"});
-
-bot.api.webhooks.send({
-  text: 'Hi, Im a IBM Watson Slack Bot and use Personality Insights.',
-  channel: '#watsonbot',
-},function(err,res) {
-  if (err) {
-    text: 'error',
-  }
-});
-
-bot.on(‘channel_joined’,function(message) { bot.reply(message,"I just joined this channel!") });
-
-
-bot.hears(['Hi'],'ambient,mention',function(message) {
+bot.hears(['Hi Watson'],'ambient,mention',function(message) {
   
   bot.reply(message,'Hi!');
 
@@ -95,7 +80,9 @@ bot.hears(['analyze'],'direct_message,direct_mention',function(message) {
               for (var c = 0; c <  top5.length; c++) {
 
                   convo.say('This channel has ' + Math.round(top5[c].percentage*100) + '% ' + top5[c].name);
+
               }
+              bot.reply(message,'You can learn more about Personality Insights using Node here: https://github.com/watson-developer-cloud/personality-insights-nodejs' );
             });
           }
         }
@@ -104,36 +91,3 @@ bot.hears(['analyze'],'direct_message,direct_mention',function(message) {
 })
 
 
-
-
-
-
-
-
-
-
-
-/*
-
-var channels = {}
-
- bot.on('ambient,direct_message',function(message) {
-
-//   // message.channel
-//   // message.text
-   if (!channels[message.channel]) {
-    channels[message.channel] = [];
-  }
-
-   channels[message.channel].push(message.text);
-  if (channels[message.channel].length > 500) {
-   channels[message.channel].shift();
-   }
-
- })
-
-
- bot.on('message_received',function(message) {
-   console.log(message);
- });
-*/
