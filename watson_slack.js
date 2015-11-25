@@ -5,8 +5,8 @@ var bot = Botkit.slackbot();
 var watson = require('watson-developer-cloud');
 
 var personality_insights = watson.personality_insights({
-  username: '8981e085-feca-4808-a3b2-a82a7daa51d9',
-  password: 'bpAdv6AnyktC',
+  username: 'your personality insights username goes here',
+  password: 'your personality insights pw goes here',
   version: 'v2'
 });
 
